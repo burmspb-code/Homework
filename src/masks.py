@@ -1,6 +1,6 @@
 """Наложение маски на номер банковской карты и номер банковского счета"""
 
-from create_masks import get_mask
+from src.create_masks import get_mask
 
 
 def get_mask_card_number(card_n: int) -> str:
@@ -15,5 +15,3 @@ def get_mask_account(account_n: int) -> str:
     **XXXX"""
     resalt = get_mask(str(account_n), 0, 15, "*", 0, "")[-6::]
     return str(resalt)
-
-
