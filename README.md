@@ -1,10 +1,18 @@
 # Проект DataForge.
 ## Цель проекта: 
 ### ***Подготовка клиентских данных для отображения в банковском виджете.***
-**Инструкция по загрузке:**
+**Инструкция по установке:**
 
-Пока не понимаю, что здесь нужно написать?
+Для работы проекта требуется [Poetry](https://python-poetry.org/).
 
+    1. Клонируйте репозиторий:
+      git clone https://github.com](https://github.com/burmspb-code/Homework_10_1.git
+        cd project
+    2. Установите зависимости:
+        poetry install
+    3. Запустите проект:
+        poetry run python src/processing.py
+    
 **Используемые модули:**
 
     - create_masks
