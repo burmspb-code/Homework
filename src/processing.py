@@ -1,10 +1,10 @@
 """Функции обработки данных"""
 
+
 def filter_by_state(list_dicts: list[dict], key: str = "EXECUTED") -> list[dict]:
     """Возвращает новый список словарей по ключу"""
 
     return [item for item in list_dicts if item["state"] == key]
-
 
 
 def sort_by_date(list_dicts: list[dict], key_sort: bool = True) -> list[dict]:
@@ -14,6 +14,7 @@ def sort_by_date(list_dicts: list[dict], key_sort: bool = True) -> list[dict]:
     """
 
     return sorted(list_dicts, key=lambda x: x["date"], reverse=key_sort)
+
 
 # Проверка filter_by_state
 # list_d = [{'id': 41428829, 'state': 'EXECUTED', 'date': '2019-07-03T18:35:29.512364'},
