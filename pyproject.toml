@@ -21,7 +21,8 @@ lint = [
     "isort (>=7.0.0,<8.0.0)",
 ]
 dev = [
-    "pytest (>=9.0.2,<10.0.0)"
+    "pytest (>=9.0.2,<10.0.0)",
+    "pytest-cov (>=7.0.0,<8.0.0)"
 ]
 
 [tool.mypy]
@@ -31,7 +32,13 @@ exclude = 'venv'
 
 [tool.black]
 line-length = 119
-exclude = '.git'
+exclude = '''
+/(
+    \.git
+  | \.venv
+  | venv
+)/
+'''
 
 [tool.isort]
 line_length = 119
