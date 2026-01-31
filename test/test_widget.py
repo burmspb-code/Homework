@@ -2,7 +2,7 @@
 
 import pytest
 
-from src.widget import mask_account_card, get_date
+from src.widget import get_date, mask_account_card
 
 # Входные дынные - список кортежей
 card_data = [
@@ -20,21 +20,26 @@ card_data = [
 
 
 @pytest.mark.parametrize("description, expected_number", card_data)
-def test_mask_account_card(description, expected_number):
+def test_mask_account_card(description: str, expected_number: str) -> None:
     assert mask_account_card(description) == expected_number
 
-def test_mask_account_card_number_is_not_decimal():
-    assert mask_account_card("Visa Platinum qwdrtyu289606361") is None
 
-def test_mask_account_card_is_not_correct_number():
-    assert mask_account_card("Счет 736541") is None
+def test_mask_account_card_number_is_not_decimal() -> None:
+    assert mask_account_card("Visa Platinum qwdrtyu289606361") is ""
 
-@pytest.mark.parametrize("description, expected_data",
-[
-    ("2025-12-31T23:59:59.999999", "31.12.2025"),
-    ("2024-01-01T00:00:00.000000", "01.01.2024"),
-    ("1999-05-20T10:30:00", "20.05.1999"),
-    ("2023-11-15", "15.11.2023")
-])
-def test_get_date(description, expected_data):
+
+def test_mask_account_card_is_not_correct_number() -> None:
+    assert mask_account_card("Счет 736541") is ""
+
+
+@pytest.mark.parametrize(
+    "description, expected_data",
+    [
+        ("2025-12-31T23:59:59.999999", "31.12.2025"),
+        ("2024-01-01T00:00:00.000000", "01.01.2024"),
+        ("1999-05-20T10:30:00", "20.05.1999"),
+        ("2023-11-15", "15.11.2023"),
+    ],
+)
+def test_get_date(description: str, expected_data: str) -> None:
     assert get_date(description) == expected_data

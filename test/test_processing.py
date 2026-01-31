@@ -13,7 +13,7 @@ from src.processing import filter_by_state, sort_by_date
     ],
     indirect=["list_input_data", "expected_result"],
 )
-def test_filter_by_state(list_input_data, key_status, expected_result):
+def test_filter_by_state(list_input_data: list[dict], key_status: str, expected_result: list[dict]) -> None:
     assert filter_by_state(list_input_data, key_status) == expected_result
 
 
@@ -25,8 +25,5 @@ def test_filter_by_state(list_input_data, key_status, expected_result):
     ],
     indirect=["list_input_data", "expected_result"],
 )
-def test_sort_by_date(list_input_data, reverse, expected_result):
+def test_sort_by_date(list_input_data: list[dict], reverse: bool, expected_result: list[dict]) -> None:
     assert sort_by_date(list_input_data, reverse) == expected_result
-
-
-

@@ -1,4 +1,5 @@
 import pytest
+from _pytest.fixtures import FixtureRequest
 
 
 @pytest.fixture
@@ -15,7 +16,7 @@ def list_input_data() -> list[dict]:
 
 
 @pytest.fixture
-def expected_result(request) -> list[dict]:
+def expected_result(request: FixtureRequest) -> list[dict]:
     """Возвращает ожидаемые дынне тестирования по значению параметризации"""
     expected_dict = {
         "list_expected_data_executed": [
@@ -41,6 +42,7 @@ def expected_result(request) -> list[dict]:
     }
     return expected_dict[request.param]
 
+
 @pytest.fixture
 def data_for_mask_account_card() -> list[dict[str, str]]:
     """
@@ -57,5 +59,5 @@ def data_for_mask_account_card() -> list[dict[str, str]]:
         {"Visa Platinum 8990922113665229": "8990922113665229"},
         {"Visa Gold 5999414228426353": "5999414228426353"},
         {"Счет 73654108430135874305": "73654108430135874305"},
-                ]
+    ]
     return list_data
