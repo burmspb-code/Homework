@@ -4,6 +4,7 @@ version = "0.1.0"
 description = ""
 authors = ["Mikhail Byrdukovsky <burmspb@gmail.com>"]
 readme = "README.md"
+package-mode = false
 
 [tool.poetry.dependencies]
 python = "^3.14"
@@ -28,7 +29,14 @@ dev = [
 [tool.mypy]
 disallow_untyped_defs = true
 warn_return_any = true
-exclude = 'venv'
+exclude = '''
+/(
+    \.git
+  | \.venv
+  | venv
+  | \.run
+)/
+'''
 
 [tool.black]
 line-length = 119
@@ -37,6 +45,7 @@ exclude = '''
     \.git
   | \.venv
   | venv
+  | \.run
 )/
 '''
 

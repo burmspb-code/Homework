@@ -12,6 +12,8 @@
         poetry install
     3. Запустите проект:
         poetry run python src/processing.py
+
+Тестирование проекта проводилось с помощьюю фреймфорка Pytest.
     
 **Используемые модули:**
 
