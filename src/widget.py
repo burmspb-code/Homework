@@ -8,7 +8,7 @@ from src.masks import get_mask_account, get_mask_card_number
 def mask_account_card(input_data: str) -> str:
     """Возвращает входную строку с маской номера карты или счета"""
     last_space = input_data.rfind(" ")  # Индекс последнего пробела
-    last_word = input_data[last_space + 1 :]  # Считываем последнее слово (номер)
+    last_word = input_data[last_space + 1:]  # Считываем последнее слово (номер)
     if not last_word.isdecimal():  # Проверка что это число
         return ""
     if len(last_word) == 20:  # Проверка на номер счета

@@ -24,7 +24,7 @@ def get_mask(
     if mask_char:
         # max(0, index_start) - защита от минусовых индексов
         # работа через срезы защищает от неверных диапазонов
-        chars[max(0, index_start) : index_final + 1] = mask_char * len(chars[max(0, index_start) : index_final + 1])
+        chars[max(0, index_start): index_final + 1] = mask_char * len(chars[max(0, index_start): index_final + 1])
 
     # Вставляем разделители
     if index_separator > 0 and symbol_separator:
@@ -32,7 +32,7 @@ def get_mask(
         # Разбиваем на группы по index_separator и соединяем их разделителем
         result = []
         for i in range(0, len(chars), index_separator):
-            result.append("".join(chars[i : i + index_separator]))
+            result.append("".join(chars[i: i + index_separator]))
         return sep.join(result)
 
     return "".join(chars)
