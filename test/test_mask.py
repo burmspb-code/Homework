@@ -31,10 +31,10 @@ def test_get_mask_account_short() -> None:
 def test_mask_card_TypeError() -> None:
     # Проверка передачи None
     with pytest.raises(TypeError):
-        get_mask_card_number(None)
+        get_mask_card_number(None)  # type: ignore
 
 
 def test_get_mask_account_TypeError() -> None:
     # Проверка передачи None
     with pytest.raises(TypeError):
-        get_mask_account("string")
+        get_mask_account("string")  # type: ignore

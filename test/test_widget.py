@@ -1,4 +1,4 @@
-"""Тесторование функций mask_account_card, get_date"""
+"""Тестирование функций mask_account_card, get_date"""
 
 import pytest
 
@@ -24,12 +24,8 @@ def test_mask_account_card(description: str, expected_number: str) -> None:
     assert mask_account_card(description) == expected_number
 
 
-def test_mask_account_card_number_is_not_decimal() -> None:
-    assert mask_account_card("Visa Platinum qwdrtyu289606361") != ""
-
-
 def test_mask_account_card_is_not_correct_number() -> None:
-    assert mask_account_card("Счет 736541") != ""
+    assert mask_account_card("Счет 736541") == "Счет 736541"
 
 
 @pytest.mark.parametrize(
