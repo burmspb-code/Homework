@@ -40,4 +40,4 @@ def card_number_generator(start: int, stop: int) -> list[str]:
         list_cards_number.append(card_number)
     return list_cards_number
 
-print(card_number_generator(1, 200))
+
