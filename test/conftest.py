@@ -257,3 +257,5 @@ def expected_descriptions() -> list[str]:
         "Перевод организации"
     ]
     return transaction_descriptions
+
+

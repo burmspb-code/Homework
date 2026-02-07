@@ -1,5 +1,7 @@
 """Генераторы для обработки данных"""
 from collections.abc import Iterator
+from random import randint
+from typing import Any, Generator
 
 
 def filter_by_currency(transactions: list[dict], currency: str) -> Iterator[dict]:
@@ -22,15 +24,20 @@ def filter_by_currency(transactions: list[dict], currency: str) -> Iterator[dict
 
 def transaction_descriptions(transactions: list[dict]) -> Iterator[str]:
     """Принимает список словарей с транзакциями и возвращает описание каждой операции по очереди"""
-    for transaction in transactions:
-        yield transaction.get("description", "")
+    if transactions:
+        for transaction in transactions:
+            yield transaction.get("description", "")
+    else:
+        raise ValueError("Данные отсутствуют")
 
-
-def card_number_generator(start: int, stop: int) -> Iterator[int]:
+def card_number_generator(start: int, stop: int) -> list[str]:
     """Выдает номера банковских карт в формате XXXX XXXX XXXX XXXX,
      где X — цифра номера карты"""
-
+    list_cards_number = []
     for num in range(start, stop + 1):
-        # :016d означает: целое число (d), дополнить нулями (0) до длины 16 знаков
-        str_mum = f"{num:016d}"
-        yield f"{str_mum[:4]} {str_mum[4:8]} {str_mum[8:12]} {str_mum[12:]}"
+        number = f"{num:0>16}"
+        card_number = f"{number[:4]} {number[4:8]} {number[8:12]} {number[12:16]}"
+        list_cards_number.append(card_number)
+    return list_cards_number
+
+print(card_number_generator(1, 200))
