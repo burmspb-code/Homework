@@ -1,7 +1,6 @@
 """Генераторы для обработки данных"""
+
 from collections.abc import Iterator
-from random import randint
-from typing import Any, Generator
 
 
 def filter_by_currency(transactions: list[dict], currency: str) -> Iterator[dict]:
@@ -9,18 +8,19 @@ def filter_by_currency(transactions: list[dict], currency: str) -> Iterator[dict
     возвращает итератор, который поочередно выдает транзакции,
     где валюта операции соответствует заданной"""
 
-    found = False # Флаг поиска нужных данных
+    found = False  # Флаг поиска нужных данных
 
     for transaction in transactions:
         op_amount = transaction.get("operationAmount", {})
         currency_data = op_amount.get("currency", {})
 
         if currency_data.get("code") == currency:
-            found = True # Нунжная валюта присутствует в транзакциях
+            found = True  # Нунжная валюта присутствует в транзакциях
             yield transaction
 
     if not found:
-        raise ValueError(f"Данные не найдены.")
+        raise ValueError("Данные не найдены.")
+
 
 def transaction_descriptions(transactions: list[dict]) -> Iterator[str]:
     """Принимает список словарей с транзакциями и возвращает описание каждой операции по очереди"""
@@ -30,14 +30,13 @@ def transaction_descriptions(transactions: list[dict]) -> Iterator[str]:
     else:
         raise ValueError("Данные отсутствуют")
 
+
 def card_number_generator(start: int, stop: int) -> list[str]:
     """Выдает номера банковских карт в формате XXXX XXXX XXXX XXXX,
-     где X — цифра номера карты"""
+    где X — цифра номера карты"""
     list_cards_number = []
     for num in range(start, stop + 1):
         number = f"{num:0>16}"
         card_number = f"{number[:4]} {number[4:8]} {number[8:12]} {number[12:16]}"
         list_cards_number.append(card_number)
     return list_cards_number
-
-
