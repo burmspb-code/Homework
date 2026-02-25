@@ -2,7 +2,7 @@
 
 import functools
 import logging
-from typing import Callable, TypeVar, ParamSpec
+from typing import Callable, ParamSpec, TypeVar
 
 P = ParamSpec("P")  # Захватывает типы всех аргументов функции (*args, **kwargs).
 R = TypeVar("R")  # Захватывает возвращаемый тип функции.

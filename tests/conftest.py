@@ -1,7 +1,8 @@
-import pytest
-from _pytest.fixtures import FixtureRequest
 import logging
 from typing import Generator
+
+import pytest
+from _pytest.fixtures import FixtureRequest
 
 
 @pytest.fixture

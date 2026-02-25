@@ -1,10 +1,12 @@
 """Тестирование декораторов"""
 
-import pytest
 import os
-from src.decorators import log
-from _pytest.capture import CaptureFixture
 from pathlib import Path
+
+import pytest
+from _pytest.capture import CaptureFixture
+
+from src.decorators import log
 
 
 def test_log_to_console_success(capsys: CaptureFixture[str]) -> None:
