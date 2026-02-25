@@ -1,17 +1,20 @@
 """Тестирование декораторов"""
+
 import pytest
 import os
 from src.decorators import log
+from _pytest.capture import CaptureFixture
+from pathlib import Path
 
 
-def test_log_to_console_success(capsys):
+def test_log_to_console_success(capsys: CaptureFixture[str]) -> None:
     """Тестируем успешное выполнение функции с выводом в консоль."""
 
     @log(filename=None)
-    def add(x, y):
+    def add(x: int, y: int) -> int:
         return x + y
 
-    result = add(1, 2)
+    result: int = add(1, 2)
 
     # Проверяем результат функции
     assert result == 3
@@ -23,11 +26,11 @@ def test_log_to_console_success(capsys):
     assert "add: ок" in captured.err
 
 
-def test_log_to_console_error(capsys):
+def test_log_to_console_error(capsys: CaptureFixture[str]) -> None:
     """Тестируем логирование ошибки."""
 
     @log(filename=None)
-    def divide(x, y):
+    def divide(x: int, y: int) -> float:
         return x / y
 
     # Проверяем, что исключение пробрасывается выше
@@ -40,13 +43,14 @@ def test_log_to_console_error(capsys):
     assert "divide error: division by zero" in captured.err
     assert "Inputs: (1, 0), {}" in captured.err
 
-def test_log_to_file(tmp_path):
+
+def test_log_to_file(tmp_path: Path) -> None:
     """Тестируем запись логов в файл с использованием временной директории pytest."""
     # tmp_path — встроенная «умная» фикстура в pytest, которая автоматически создает временную директорию для тестов.
     log_file_str = str(tmp_path / "test.log")
 
     @log(filename=log_file_str)
-    def multiply(x, y):
+    def multiply(x: int, y: int) -> float:
         return x * y
 
     multiply(2, 3)

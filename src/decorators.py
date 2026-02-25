@@ -4,13 +4,12 @@ import functools
 import logging
 from typing import Callable, TypeVar, ParamSpec
 
-P = ParamSpec("P") # Захватывает типы всех аргументов функции (*args, **kwargs).
-R = TypeVar("R") # Захватывает возвращаемый тип функции.
+P = ParamSpec("P")  # Захватывает типы всех аргументов функции (*args, **kwargs).
+R = TypeVar("R")  # Захватывает возвращаемый тип функции.
+
 
 # Создаем псевдоним для декоратора с параметрами
-Decorator = Callable[[Callable[P, R]], Callable[P, R]]
-
-def log(filename: str | None) -> Decorator[P, R]:
+def log(filename: str | None) -> Callable[[Callable[P, R]], Callable[P, R]]:
     """Декоратор логирует имя функции и успешный результат выполнения/описание возникшей ошибки"""
     # Настройка логгера
     logger = logging.getLogger(__name__)
@@ -18,7 +17,7 @@ def log(filename: str | None) -> Decorator[P, R]:
 
     # Проверяем, чтобы не добавлять обработчики повторно
     if not logger.handlers:
-    # Определяем куда выводить
+        # Определяем куда выводить
         handler = logging.FileHandler(filename) if filename else logging.StreamHandler()
         logger.addHandler(handler)
 
@@ -35,5 +34,7 @@ def log(filename: str | None) -> Decorator[P, R]:
             except Exception as e:
                 logger.error(f"{func.__name__} error: {e}. Inputs: {args}, {kwargs}")
                 raise e
+
         return wrapper
+
     return decorator
