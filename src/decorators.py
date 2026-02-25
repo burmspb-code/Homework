@@ -26,13 +26,11 @@ def log(filename: str | None) -> Decorator[P, R]:
         @functools.wraps(func)
         def wrapper(*args: P.args, **kwargs: P.kwargs) -> R:
             # Логируем начало выполнения
-            logger.info(f"Старт: {func.__name__}")
             try:
                 result = func(*args, **kwargs)
                 # Логируем результат работы
                 logger.info(f"{func.__name__}: ок")
                 # Логируем завершение
-                logger.info(f"Завершено: {func.__name__}")
                 return result
             except Exception as e:
                 logger.error(f"{func.__name__} error: {e}. Inputs: {args}, {kwargs}")

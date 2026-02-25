@@ -1,5 +1,6 @@
 import pytest
 from _pytest.fixtures import FixtureRequest
+import logging
 
 
 @pytest.fixture
@@ -202,3 +203,9 @@ def expected_descriptions() -> list[str]:
         "Перевод организации",
     ]
     return transaction_descriptions
+
+@pytest.fixture(autouse=True) # Фикстура для автоматического запуска перед каждым тестом на логированием
+def reset_logging():
+    """Сброс настройки логгера"""
+    logger = logging.getLogger("src.decorators") # Доступ к нужному логеру ("decorators").
+    logger.handlers = [] # Обнуляем список хендлеров (способы вывода) для логера.
