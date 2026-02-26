@@ -9,7 +9,7 @@ R = TypeVar("R")  # Захватывает возвращаемый тип фу�
 
 
 # Создаем псевдоним для декоратора с параметрами
-def log(filename: str | None) -> Callable[[Callable[P, R]], Callable[P, R]]:
+def log(filename: str | None = None) -> Callable[[Callable[P, R]], Callable[P, R]]:
     """Декоратор логирует имя функции и успешный результат выполнения/описание возникшей ошибки"""
     # Настройка логгера
     logger = logging.getLogger(__name__)
