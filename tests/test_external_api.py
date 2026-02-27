@@ -1,15 +1,19 @@
-from unittest.mock import patch, MagicMock
+from unittest.mock import MagicMock, patch
+
 import requests
+
 from src.external_api import get_rub_transaction
 
-def test_get_rub_transaction_rub():
+
+def test_get_rub_transaction_rub() -> None:
     """Тест: если валюта RUB, API не вызывается, возвращается та же сумма."""
-    assert get_rub_transaction(100.0, "RUB") == 100.0
+    transaction = {"amount": 100.0, "currency": "RUB"}
+    assert get_rub_transaction(transaction) == 100.0
 
 
 @patch("src.external_api.os.getenv")
 @patch("src.external_api.requests.get")
-def test_get_rub_transaction_usd_success(mock_get, mock_getenv):
+def test_get_rub_transaction_usd_success(mock_get: MagicMock, mock_getenv: MagicMock) -> None:
     """Тест успешного запроса конвертации из USD в RUB."""
     # Настройка моков
     mock_getenv.return_value = "test_api_key"
@@ -21,24 +25,38 @@ def test_get_rub_transaction_usd_success(mock_get, mock_getenv):
     mock_get.return_value = mock_response
 
     # Вызов функции
-    result = get_rub_transaction(100.0, "USD")
+    transaction = {"amount": 100.0, "currency": "USD"}
+    result = get_rub_transaction(transaction)
 
     # Проверки
     assert result == 8500.0
     mock_get.assert_called_once_with(
         "https://api.apilayer.com/exchangerates_data/convert",
         headers={"apikey": "test_api_key"},
-        params={"amount": 100.0, "from": "USD", "to": "RUB"}
+        params={"amount": 100.0, "from": "USD", "to": "RUB"},
     )
 
 
 @patch("src.external_api.requests.get")
-def test_get_rub_transaction_error(mock_get):
+def test_get_rub_transaction_error(mock_get: MagicMock) -> None:
     """Тест: возврат 0.0 при ошибке запроса к API."""
     # Настраиваем мок на генерацию исключения
     mock_get.side_effect = requests.exceptions.RequestException("API Error")
 
-    result = get_rub_transaction(100.0, "EUR")
+    transaction = {"amount": 100.0, "currency": "EUR"}
+    result = get_rub_transaction(transaction)
 
     assert result == 0.0
     mock_get.assert_called_once()
+
+
+def test_get_rub_transaction_unsupported_currency() -> None:
+    """Тест: возврат 0.0 для неподдерживаемой валюты (например, CNY)."""
+    transaction = {"amount": 100.0, "currency": "CNY"}
+    assert get_rub_transaction(transaction) == 0.0
+
+
+def test_get_rub_transaction_empty_currency() -> None:
+    """Тест: возврат 0.0, если валюта не указана."""
+    transaction = {"amount": 100.0}  # Ключ 'currency' отсутствует
+    assert get_rub_transaction(transaction) == 0.0
