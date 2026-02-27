@@ -1,3 +1,6 @@
+import logging
+from typing import Generator
+
 import pytest
 from _pytest.fixtures import FixtureRequest
 
@@ -202,3 +205,11 @@ def expected_descriptions() -> list[str]:
         "Перевод организации",
     ]
     return transaction_descriptions
+
+
+@pytest.fixture(autouse=True)  # Фикстура для автоматического запуска перед каждым тестом на логированием
+def reset_logging() -> Generator[None, None, None]:  # Фикстуры являются генераторами.
+    """Сброс настройки логгера"""
+    logger = logging.getLogger("src.decorators")  # Доступ к нужному логеру ("decorators").
+    logger.handlers = []  # Обнуляем список хендлеров (способы вывода) для логера.
+    yield  # Передаем управление тесту.
