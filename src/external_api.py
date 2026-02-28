@@ -10,8 +10,14 @@ load_dotenv()
 
 def get_rub_transaction(transaction: dict) -> float:
     """Возвращает сумму транзакции в рублях"""
-    amount = transaction.get("amount", 0.0)
-    currency = transaction.get("currency", "").upper()
+    op_amount = transaction.get("operationAmount", {})
+    amount = op_amount.get("amount", 0.0)
+    currency_data = op_amount.get("currency", {})
+
+    if isinstance(currency_data, dict):
+        currency = currency_data.get("code", "").upper()  # Если словарь
+    else:
+        currency = str(currency_data).upper()
 
     if currency == "RUB":
         return float(amount)
