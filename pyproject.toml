@@ -8,6 +8,8 @@ package-mode = false
 
 [tool.poetry.dependencies]
 python = "^3.14"
+python-dotenv = "^1.2.1"
+requests = "^2.32.5"
 
 
 [build-system]
@@ -23,7 +25,8 @@ lint = [
 ]
 dev = [
     "pytest (>=9.0.2,<10.0.0)",
-    "pytest-cov (>=7.0.0,<8.0.0)"
+    "pytest-cov (>=7.0.0,<8.0.0)",
+    "types-requests (>=2.32.4.20260107,<3.0.0.0)"
 ]
 
 [tool.mypy]
