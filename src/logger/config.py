@@ -20,7 +20,7 @@ def setup_logger(name: str) -> Logger:
     if not logger.handlers:
         # Настраиваем file_handler
         log_file = os.path.join(LOG_DIR, f"{name}.log")
-        file_handler = logging.FileHandler(log_file, mode='w', encoding='utf-8')
+        file_handler = logging.FileHandler(log_file, mode="w", encoding="utf-8")
 
         # Настраиваем file_formatter
         file_formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")

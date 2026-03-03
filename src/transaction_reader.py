@@ -1,4 +1,5 @@
 """Модуль для чтения транзакций"""
+
 import csv
 from pathlib import Path
 
@@ -31,7 +32,7 @@ def readding_xlsx_data(file_path: str | Path) -> list[dict]:
     logger.info(f"Открытие файла {file_path}")
     try:
         df = pd.read_excel(file_path)
-        list_dict = df.to_dict(orient='records')
+        list_dict = df.to_dict(orient="records")
         logger.info("Чтение прошло успешно")
         return list_dict
     except FileNotFoundError:
