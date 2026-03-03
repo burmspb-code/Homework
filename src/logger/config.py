@@ -9,6 +9,10 @@ LOG_DIR = os.path.join(os.path.dirname(__file__), "../../logs")
 def setup_logger(name: str) -> Logger:
     """Настрока логера"""
 
+    # Создаем папку, если её еще нет
+    if not os.path.exists(LOG_DIR):
+        os.makedirs(LOG_DIR)
+
     logger = logging.getLogger(name)  # Создаем объект логера
     logger.setLevel(logging.DEBUG)  # Устанавливаем уровень логирования
 

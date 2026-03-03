@@ -6,12 +6,12 @@ from src.generators import card_number_generator, filter_by_currency, transactio
 
 
 def test_filter_by_currency_standard(
-    test_transactions: list[dict],
-    result_usd_1: dict,
-    result_usd_2: dict,
-    result_usd_3: dict,
-    result_rub_1: dict,
-    result_rub_2: dict,
+        test_transactions: list[dict],
+        result_usd_1: dict,
+        result_usd_2: dict,
+        result_usd_3: dict,
+        result_rub_1: dict,
+        result_rub_2: dict,
 ) -> None:
     """Проверяем стандартную работу функции"""
     result_usd = list(filter_by_currency(test_transactions, "USD"))
@@ -27,12 +27,12 @@ def test_filter_by_currency_standard(
 
 
 def test_filter_by_currency_incorrect_currency(
-    test_transactions: list[dict],
-    result_usd_1: dict,
-    result_usd_2: dict,
-    result_usd_3: dict,
-    result_rub_1: dict,
-    result_rub_2: dict,
+        test_transactions: list[dict],
+        result_usd_1: dict,
+        result_usd_2: dict,
+        result_usd_3: dict,
+        result_rub_1: dict,
+        result_rub_2: dict,
 ) -> None:
     """Проверяем работу функции когда транзакции в заданной валюте отсутствуют"""
 
@@ -80,13 +80,13 @@ def test_transaction_descriptions_empty() -> None:
         ([{"description": "Перевод по номеру карты"}], ["Перевод по номеру карты"]),
         # Случай с несколькими транзакциями
         (
-            [{"description": "Оплата телефона"}, {"description": "Перевод другу"}, {"description": "Кешбэк"}],
-            ["Оплата телефона", "Перевод другу", "Кешбэк"],
+                [{"description": "Оплата телефона"}, {"description": "Перевод другу"}, {"description": "Кешбэк"}],
+                ["Оплата телефона", "Перевод другу", "Кешбэк"],
         ),
         # Случай, когда в некоторых транзакциях нет ключа description
         (
-            [{"description": "Покупка"}, {"amount": 100}, {"description": "Ужин"}],  # Ключ отсутствует
-            ["Покупка", "", "Ужин"],
+                [{"description": "Покупка"}, {"amount": 100}, {"description": "Ужин"}],  # Ключ отсутствует
+                ["Покупка", "", "Ужин"],
         ),
     ],
 )
