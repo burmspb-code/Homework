@@ -10,6 +10,8 @@ package-mode = false
 python = "^3.14"
 python-dotenv = "^1.2.1"
 requests = "^2.32.5"
+pandas = "^3.0.1"
+openpyxl = "^3.1.5"
 
 
 [build-system]
@@ -26,7 +28,8 @@ lint = [
 dev = [
     "pytest (>=9.0.2,<10.0.0)",
     "pytest-cov (>=7.0.0,<8.0.0)",
-    "types-requests (>=2.32.4.20260107,<3.0.0.0)"
+    "types-requests (>=2.32.4.20260107,<3.0.0.0)",
+    "pandas-stubs (>=3.0.0.260204,<4.0.0.0)"
 ]
 
 [tool.mypy]
