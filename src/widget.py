@@ -7,6 +7,10 @@ from src.masks import get_mask_account, get_mask_card_number
 
 def mask_account_card(input_data: str) -> str:
     """Возвращает входную строку с маской номера карты или счета"""
+    # Проверка на None или пустые значения
+    if not input_data or not isinstance(input_data, str):
+        return input_data
+
     last_space = input_data.rfind(" ")  # Индекс последнего пробела
     last_word = input_data[last_space + 1 :]  # Считываем последнее слово (номер)
 

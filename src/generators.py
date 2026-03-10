@@ -18,8 +18,8 @@ def filter_by_currency(transactions: list[dict], currency: str) -> Iterator[dict
             found = True  # Нунжная валюта присутствует в транзакциях
             yield transaction
 
-    if not found:
-        raise ValueError("Данные не найдены.")
+    # if not found:
+    #     raise ValueError("Данные не найдены.")
 
 
 def transaction_descriptions(transactions: list[dict]) -> Iterator[str]:
