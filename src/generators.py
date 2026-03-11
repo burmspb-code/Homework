@@ -8,18 +8,12 @@ def filter_by_currency(transactions: list[dict], currency: str) -> Iterator[dict
     возвращает итератор, который поочередно выдает транзакции,
     где валюта операции соответствует заданной"""
 
-    found = False  # Флаг поиска нужных данных
-
     for transaction in transactions:
         op_amount = transaction.get("operationAmount", {})
         currency_data = op_amount.get("currency", {})
 
         if currency_data.get("code") == currency:
-            found = True  # Нунжная валюта присутствует в транзакциях
             yield transaction
-
-    if not found:
-        raise ValueError("Данные не найдены.")
 
 
 def transaction_descriptions(transactions: list[dict]) -> Iterator[str]:

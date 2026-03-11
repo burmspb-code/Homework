@@ -26,39 +26,24 @@ def test_filter_by_currency_standard(
     assert result_rub == [result_rub_1, result_rub_2]
 
 
-def test_filter_by_currency_incorrect_currency(
-    test_transactions: list[dict],
-    result_usd_1: dict,
-    result_usd_2: dict,
-    result_usd_3: dict,
-    result_rub_1: dict,
-    result_rub_2: dict,
-) -> None:
-    """Проверяем работу функции когда транзакции в заданной валюте отсутствуют"""
-
-    with pytest.raises(ValueError):
-        list(filter_by_currency(test_transactions, "EUR"))
+def test_filter_by_currency_incorrect_currency(test_transactions):
+    """Проверяем, что при отсутствии валюты возвращается пустой список"""
+    # Убираем with pytest.raises(ValueError)
+    result = list(filter_by_currency(test_transactions, "EUR"))
+    assert result == []  # Ожидаем пустоту, а не падение
 
 
-def test_filter_by_currency_empty_list() -> None:
-    """Проверка случая, когда на вход подан пустой список"""
-    with pytest.raises(ValueError):
-        # Пытаемся обработать пустой список
-        list(filter_by_currency([], "USD"))
+def test_filter_by_currency_empty_list():
+    """Проверяем работу с пустым входным списком"""
+    result = list(filter_by_currency([], "USD"))
+    assert result == []
 
 
-def test_no_currency_transaction() -> None:
-    """Проверка случая, когда нет валютных операций"""
-    transaction = {
-        "id": 873106923,
-        "state": "EXECUTED",
-        "date": "2019-03-23T01:09:46.296404",
-        "description": "Перевод со счета на счет",
-        "from": "Счет 44812258784861134719",
-        "to": "Счет 74489636417521191160",
-    }
-    with pytest.raises(ValueError):
-        list(filter_by_currency([transaction], "USD"))
+def test_no_currency_transaction():
+    """Проверяем транзакцию с битой структурой"""
+    bad_data = [{"id": 123}]  # нет ключа operationAmount
+    result = list(filter_by_currency(bad_data, "USD"))
+    assert result == []
 
 
 def test_transaction_descriptions_standard(test_transactions: list[dict], expected_descriptions: list[str]) -> None:

@@ -19,6 +19,20 @@ card_data = [
 ]
 
 
+@pytest.mark.parametrize(
+    "bad_input",
+    [
+        None,  # Проверка на None
+        "",  # Пустая строка
+        1234567890,  # Число вместо строки
+        ["Счет", "1234"],  # Список вместо строки
+    ],
+)
+def test_mask_account_card_edge_cases(bad_input):
+    """Проверяем, что функция возвращает некорректный вход без изменений"""
+    assert mask_account_card(bad_input) == bad_input
+
+
 @pytest.mark.parametrize("description, expected_number", card_data)
 def test_mask_account_card(description: str, expected_number: str) -> None:
     assert mask_account_card(description) == expected_number
