@@ -16,7 +16,7 @@ def reading_csv_data(file_path: str | Path) -> list[dict]:
     logger.info(f"Открытие файла {file_path}")
     try:
         with open(file_path) as file:
-            reader = csv.DictReader(file, delimiter=';')
+            reader = csv.DictReader(file, delimiter=";")
             logger.info("Чтение прошло успешно")
             return list(reader)
     except FileNotFoundError:
@@ -31,7 +31,7 @@ def reading_xlsx_data(file_path: str | Path) -> list[dict]:
     """Читает транзакции из xlsx файла и возвращает список словарей"""
     logger.info(f"Открытие файла {file_path}")
     try:
-        df = pd.read_excel(file_path, engine='openpyxl')
+        df = pd.read_excel(file_path, engine="openpyxl")
         list_dict = df.to_dict(orient="records")
         logger.info("Чтение прошло успешно")
         return list_dict

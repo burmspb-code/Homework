@@ -7,7 +7,7 @@ from src.logger.config import setup_logger
 @patch("src.logger.config.os.makedirs")
 @patch("src.logger.config.logging.FileHandler")
 def test_create_log_dir_if_not_exists(
-        mock_file_handler: MagicMock, mock_makedirs: MagicMock, mock_exists: MagicMock
+    mock_file_handler: MagicMock, mock_makedirs: MagicMock, mock_exists: MagicMock
 ) -> None:
     # 1. Имитируем, что папки нет
     mock_exists.return_value = False

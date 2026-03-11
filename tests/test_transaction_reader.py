@@ -2,7 +2,7 @@ from unittest.mock import MagicMock, mock_open, patch
 
 import pandas as pd
 
-from src.transaction_reader import reading_xlsx_data, reading_csv_data
+from src.transaction_reader import reading_csv_data, reading_xlsx_data
 
 
 @patch("builtins.open", new_callable=mock_open, read_data="amount,currency\n100,RUB")  # Мокаем open
@@ -43,7 +43,7 @@ def test_reading_xlsx_data_success(mock_read_excel: MagicMock) -> None:
     reading_xlsx_data(file_path)
 
     # Добавляем engine='openpyxl' в проверку, так как он есть в коде!
-    mock_read_excel.assert_called_once_with(file_path, engine='openpyxl')
+    mock_read_excel.assert_called_once_with(file_path, engine="openpyxl")
 
 
 @patch("pandas.read_excel")

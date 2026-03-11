@@ -1,4 +1,4 @@
-from src.transaction_analyzer import process_bank_search, process_bank_operations
+from src.transaction_analyzer import process_bank_operations, process_bank_search
 
 
 # Тесты для process_bank_search

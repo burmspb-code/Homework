@@ -6,6 +6,7 @@ from src.logger.config import setup_logger
 # Создаем объект логера для utils
 logger = setup_logger("utils")
 
+
 def flatten_transaction(t: dict) -> dict:
     """Приводит транзакцию к плоскому виду, как в CSV."""
     # Если это уже плоский CSV-словать, вернет его же (или расширит)
@@ -18,7 +19,7 @@ def flatten_transaction(t: dict) -> dict:
         "currency_code": t.get("currency_code") or t.get("operationAmount", {}).get("currency", {}).get("code"),
         "from": t.get("from"),
         "to": t.get("to"),
-        "description": t.get("description")
+        "description": t.get("description"),
     }
 
 
@@ -28,7 +29,7 @@ def get_json_data(path: str | Path) -> list[dict]:
     data = []
 
     try:
-        with open(path, encoding='utf-8') as file:
+        with open(path, encoding="utf-8") as file:
             raw_data = json.load(file)
             if isinstance(raw_data, list):
                 data = raw_data

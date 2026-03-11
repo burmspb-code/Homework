@@ -1,28 +1,28 @@
 import runpy
 import sys
+from unittest.mock import patch
 
 import pytest
 
-from src.main import ask_yes_no, main, actions
-from unittest.mock import patch, MagicMock
+from src.main import actions, ask_yes_no, main
 
 
 def test_ask_yes_no_positive(monkeypatch):
     # Имитируем ввод "Да"
-    monkeypatch.setattr('builtins.input', lambda _: "Да")
+    monkeypatch.setattr("builtins.input", lambda _: "Да")
     assert ask_yes_no("Вопрос", ["Да", "Нет"]) is True
 
 
 def test_ask_yes_no_negative(monkeypatch):
     # Имитируем ввод "Нет"
-    monkeypatch.setattr('builtins.input', lambda _: "Нет")
+    monkeypatch.setattr("builtins.input", lambda _: "Нет")
     assert ask_yes_no("Вопрос", ["Да", "Нет"]) is False
 
 
 def test_ask_yes_no_retry(monkeypatch, capsys):
     # Имитируем сначала неверный ввод, затем верный
     inputs = iter(["ошибка", "Да"])
-    monkeypatch.setattr('builtins.input', lambda _: next(inputs))
+    monkeypatch.setattr("builtins.input", lambda _: next(inputs))
 
     assert ask_yes_no("Вопрос", ["Да", "Нет"]) is True
     captured = capsys.readouterr()
@@ -37,9 +37,15 @@ def test_ask_yes_no_retry(monkeypatch, capsys):
 @patch("src.main.get_date")
 @patch("src.main.process_bank_search")
 def test_main_full_scenario(
-        mock_search, mock_date, mock_mask, mock_filter_curr,
-        mock_sort, mock_filter_state, mock_get_json,
-        monkeypatch, capsys
+    mock_search,
+    mock_date,
+    mock_mask,
+    mock_filter_curr,
+    mock_sort,
+    mock_filter_state,
+    mock_get_json,
+    monkeypatch,
+    capsys,
 ):
     # --- РЕШЕНИЕ ПРОБЛЕМЫ С ACTIONS ---
     # Принудительно подставляем моки в словарь actions,
@@ -47,14 +53,16 @@ def test_main_full_scenario(
     actions["1"]["func"] = mock_get_json
     # ----------------------------------
 
-    fake_data = [{
-        "date": "2023-01-01T12:00:00",
-        "description": "Перевод",
-        "amount": "100",
-        "currency_code": "RUB",
-        "to": "Счет 1",
-        "from": "Карта 1"
-    }]
+    fake_data = [
+        {
+            "date": "2023-01-01T12:00:00",
+            "description": "Перевод",
+            "amount": "100",
+            "currency_code": "RUB",
+            "to": "Счет 1",
+            "from": "Карта 1",
+        }
+    ]
 
     mock_get_json.return_value = fake_data
     mock_filter_state.return_value = fake_data
@@ -66,7 +74,7 @@ def test_main_full_scenario(
 
     # Ответы: 5 (ошибка), 1 (ок), test (ошибка), EXECUTED (ок), Да, по возрастанию, Да, Да, test
     inputs = iter(["5", "1", "test", "EXECUTED", "Да", "по возрастанию", "Да", "Да", "test"])
-    monkeypatch.setattr('builtins.input', lambda _: next(inputs))
+    monkeypatch.setattr("builtins.input", lambda _: next(inputs))
 
     main()
 
@@ -100,4 +108,3 @@ def test_main_block_execution(monkeypatch):
     # Тест перехватит это исключение и зачтет успешное прохождение строки.
     with pytest.raises(SystemExit):
         runpy.run_module("src.main", run_name="__main__")
-

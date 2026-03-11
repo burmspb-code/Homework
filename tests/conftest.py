@@ -1,7 +1,6 @@
 import logging
 from typing import Generator
 
-
 import pytest
 from _pytest.fixtures import FixtureRequest
 
@@ -215,6 +214,7 @@ def reset_logging() -> Generator[None, None, None]:  # Фикстуры явля
     logger.handlers = []  # Обнуляем список хендлеров (способы вывода) для логера.
     yield  # Передаем управление тесту.
 
+
 @pytest.fixture
 def sample_data():
     return [
@@ -222,5 +222,5 @@ def sample_data():
         {"description": "Оплата услуг: Интернет", "amount": 500},
         {"description": "Перевод другу", "amount": 1000},
         {"description": "Покупка продуктов", "amount": 200},
-        {"amount": 50}  # Транзакция без описания
+        {"amount": 50},  # Транзакция без описания
     ]

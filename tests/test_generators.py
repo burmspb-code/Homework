@@ -25,20 +25,23 @@ def test_filter_by_currency_standard(
     assert len(result_rub) == 2  # Проверяем, что RUB имеет 2 транзакции
     assert result_rub == [result_rub_1, result_rub_2]
 
+
 def test_filter_by_currency_incorrect_currency(test_transactions):
     """Проверяем, что при отсутствии валюты возвращается пустой список"""
     # Убираем with pytest.raises(ValueError)
     result = list(filter_by_currency(test_transactions, "EUR"))
     assert result == []  # Ожидаем пустоту, а не падение
 
+
 def test_filter_by_currency_empty_list():
     """Проверяем работу с пустым входным списком"""
     result = list(filter_by_currency([], "USD"))
     assert result == []
 
+
 def test_no_currency_transaction():
     """Проверяем транзакцию с битой структурой"""
-    bad_data = [{"id": 123}] # нет ключа operationAmount
+    bad_data = [{"id": 123}]  # нет ключа operationAmount
     result = list(filter_by_currency(bad_data, "USD"))
     assert result == []
 
