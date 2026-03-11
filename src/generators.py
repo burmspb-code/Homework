@@ -18,9 +18,6 @@ def filter_by_currency(transactions: list[dict], currency: str) -> Iterator[dict
             found = True  # Нунжная валюта присутствует в транзакциях
             yield transaction
 
-    # if not found:
-    #     raise ValueError("Данные не найдены.")
-
 
 def transaction_descriptions(transactions: list[dict]) -> Iterator[str]:
     """Принимает список словарей с транзакциями и возвращает описание каждой операции по очереди"""

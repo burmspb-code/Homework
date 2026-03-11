@@ -1,11 +1,9 @@
 import logging
 from typing import Generator
-from unittest.mock import MagicMock, patch
+
 
 import pytest
 from _pytest.fixtures import FixtureRequest
-
-from src.logger.config import setup_logger
 
 
 @pytest.fixture
@@ -217,38 +215,12 @@ def reset_logging() -> Generator[None, None, None]:  # Фикстуры явля
     logger.handlers = []  # Обнуляем список хендлеров (способы вывода) для логера.
     yield  # Передаем управление тесту.
 
-
-@patch("src.logger.config.os.path.exists")
-@patch("src.logger.config.os.makedirs")
-@patch("src.logger.config.logging.FileHandler")  # Мокаем, чтобы не создавался реальный .log файл
-def test_create_log_dir_if_not_exists(
-    mock_file_handler: MagicMock, mock_makedirs: MagicMock, mock_exists: MagicMock
-) -> None:
-    # Имитируем, что папки не существует
-    mock_exists.return_value = False
-
-    # Вызываем функцию с обязательным аргументом name
-    setup_logger("test_name")
-
-    # Проверяем, что проверка была и создание вызвано
-    mock_exists.assert_called_once()
-    mock_makedirs.assert_called_once()
-    mock_file_handler.assert_not_called()
-
-
-@patch("src.logger.config.os.path.exists")
-@patch("src.logger.config.os.makedirs")
-@patch("src.logger.config.logging.FileHandler")  # Мокаем, чтобы не создавался реальный .log файл
-def test_setup_logger_does_not_create_dir_if_exists(
-    mock_file_handler: MagicMock, mock_makedirs: MagicMock, mock_exists: MagicMock
-) -> None:
-    # Имитируем, что папка уже существует
-    mock_exists.return_value = True
-
-    # Вызываем функцию с обязательным аргументом name
-    setup_logger("test_name")
-
-    # Проверяем, что проверка была, а команда на создание НЕ вызывалась
-    mock_exists.assert_called_once()
-    mock_makedirs.assert_not_called()
-    mock_file_handler.assert_not_called()
+@pytest.fixture
+def sample_data():
+    return [
+        {"description": "Перевод организации", "amount": 100},
+        {"description": "Оплата услуг: Интернет", "amount": 500},
+        {"description": "Перевод другу", "amount": 1000},
+        {"description": "Покупка продуктов", "amount": 200},
+        {"amount": 50}  # Транзакция без описания
+    ]

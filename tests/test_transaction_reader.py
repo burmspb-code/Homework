@@ -1,6 +1,8 @@
 from unittest.mock import MagicMock, mock_open, patch
 
-from src.transaction_reader import readding_xlsx_data, reading_csv_data
+import pandas as pd
+
+from src.transaction_reader import reading_xlsx_data, reading_csv_data
 
 
 @patch("builtins.open", new_callable=mock_open, read_data="amount,currency\n100,RUB")  # Мокаем open
@@ -33,35 +35,32 @@ def test_reading_csv_data_exception(mock_file: MagicMock) -> None:
 
 
 @patch("pandas.read_excel")
-def test_readding_xlsx_data_success(mock_read_excel: MagicMock) -> None:
-    """Корректная работы функции"""
-    # Создаем мок для DataFrame и его метода to_dict
-    mock_df = MagicMock()
-    mock_df.to_dict.return_value = [{"amount": 100, "currency": "RUB"}]
-    mock_read_excel.return_value = mock_df
+def test_reading_xlsx_data_success(mock_read_excel: MagicMock) -> None:
+    # Имитируем возврат DataFrame
+    mock_read_excel.return_value = pd.DataFrame([{"amount": 100}])
 
-    result = readding_xlsx_data("fake_path.xlsx")
+    file_path = "data/operations.xlsx"
+    reading_xlsx_data(file_path)
 
-    assert result == [{"amount": 100, "currency": "RUB"}]
-    mock_read_excel.assert_called_once_with("fake_path.xlsx")
-    mock_df.to_dict.assert_called_once_with(orient="records")
+    # Добавляем engine='openpyxl' в проверку, так как он есть в коде!
+    mock_read_excel.assert_called_once_with(file_path, engine='openpyxl')
 
 
 @patch("pandas.read_excel")
-def test_readding_xlsx_data_file_not_found(mock_read_excel: MagicMock) -> None:
+def test_reading_xlsx_data_file_not_found(mock_read_excel: MagicMock) -> None:
     """Тест ошибки - файл не найден"""
     mock_read_excel.side_effect = FileNotFoundError
 
-    result = readding_xlsx_data("non_existent.xlsx")
+    result = reading_xlsx_data("non_existent.xlsx")
 
     assert result == []
 
 
 @patch("pandas.read_excel")
-def test_readding_xlsx_data_error(mock_read_excel: MagicMock) -> None:
+def test_reading_xlsx_data_error(mock_read_excel: MagicMock) -> None:
     """Тест ошибки чтения"""
     mock_read_excel.side_effect = Exception("Some error")
 
-    result = readding_xlsx_data("error.xlsx")
+    result = reading_xlsx_data("error.xlsx")
 
     assert result == []

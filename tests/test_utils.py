@@ -7,9 +7,21 @@ from src.utils import get_json_data
 def test_get_json_data_success(mock_file: MagicMock) -> None:
     """Тест успешного чтения корректного JSON."""
     result = get_json_data("data/operations.json")
-    assert result == [{"amount": 100}]
-    mock_file.assert_called_once()
 
+    # Ожидаем ПОЛНУЮ структуру, которую гарантирует flatten_transaction
+    expected = [{
+        "id": None,
+        "state": None,
+        "date": None,
+        "amount": 100,  # значение из нашего read_data
+        "currency_code": None,
+        "from": None,
+        "to": None,
+        "description": None
+    }]
+
+    assert result == expected
+    mock_file.assert_called_once()
 
 @patch("src.utils.open", side_effect=FileNotFoundError)
 def test_get_json_data_file_not_found(mock_file: MagicMock) -> None:
